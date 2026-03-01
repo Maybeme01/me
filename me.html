@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Birthday for Dad</title>
+<style>
+body, html {
+      margin: 0; padding: 0; min-height: 100vh;
+        background: linear-gradient(180deg,#ffd6e7 0%, #ffc1cc 100%);
+          display: flex; flex-direction: column; justify-content: center; align-items: center;
+            position: relative;
+}
+.hello-kitty-bg {
+      position: fixed;
+        top: 18px;
+          right: 18px;
+            width: 80px;
+              height: auto;
+                opacity: 0.92;
+                  pointer-events: none;
+                    z-index: 50;
+}
+.cake-base {
+      position: relative;
+        width: 220px;
+          height: 160px;
+            margin: 40px auto 0 auto;
+              display: flex;
+                flex-direction: column;
+                  align-items: center;
+                    cursor: pointer;
+}
+.cake-box {
+      width: 160px;
+        height: 70px;
+          background: linear-gradient(180deg,#fff3e6 80%, #fd659a 100%);
+            border-radius: 18px;
+              box-shadow: 0 7px 22px rgba(230,90,185,0.10), 0 1px #e5b0b0;
+                position: relative;
+                  margin-top: 53px;
+}
+.cake-top {
+      width: 160px;
+        height: 18px;
+          background: #fd659a;
+            border-radius: 18px 18px 4px 4px;
+              position: absolute;
+                top: 0;
+                  left: 0;
+                    z-index: 4;
+                      box-shadow: 0 2px 8px rgba(215,93,110,0.20);
+}
+.candles-row {
+      position: absolute;
+        top: -36px;
+          left: 50%;
+            transform: translateX(-50%);
+              display: flex;
+                gap: 7px;
+                  z-index: 10;
+}
+.candle {
+      width: 16px;
+        height: 36px;
+          background: #fff;
+            border-radius: 7px;
+              box-shadow: 0 1px 5px rgba(0,0,0,0.10);
+                opacity: 0.3;
+                  z-index: 20;
+                    position: relative;
+                      transition: opacity 0.5s;
+}
+.candle.lit {opacity: 1;}
+.flame {
+      position: absolute;
+        top: -13px;
+          left: 50%;
+            width: 10px; height: 16px;
+              transform: translateX(-50%);
+                opacity: 0;
+                  transition: opacity 0.5s;
+                    z-index: 22;
+}
+.candle.lit .flame {
+      opacity: 1;
+        animation: flicker 1s infinite alternate;
+}
+@keyframes flicker {
+      0%   { transform: translateX(-50%) scale(1);}
+        100% { transform: translateX(-50%) scale(1.18);}
+}
+.flame-shape {
+      width: 8px; height: 14px;
+        border-radius: 50% 50% 50% 50% / 60% 60% 45% 45%;
+          background: radial-gradient(circle at 60% 40%, #ffe066 70%, #fcb900 95%, transparent 100%);
+            margin: auto;
+              filter: blur(0.3px);
+}
+.message {
+      min-height: 1.5em; margin-top: 32px;
+        color: #980048;
+          font-size: 2rem;
+            font-weight: bold;
+              letter-spacing: 0.07em;
+                text-align: center;
+                  font-family: Arial, sans-serif;
+                    line-height: 2.2rem;
+                      background: none; border: none; outline: none;
+                        white-space: pre; overflow: hidden; user-select: none;
+}
+
+/* البوكس المنبثق */
+.cake-popup {
+      display: none;
+        position: fixed;
+          top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+              background: #fff5fa;
+                color: #c12164;
+                  border-radius: 20px;
+                    box-shadow: 0 8px 32px rgba(180,50,120,0.17);
+                      padding: 26px 32px;
+                        font-size: 1.5rem;
+                          text-align: center;
+                            z-index: 100;
+                              border: 2px solid #fd659a;
+                                max-width: 80vw;
+}
+.cake-popup.active {
+      display: block;
+        animation: popUp .32s cubic-bezier(.8,-0.4,.7,1.6);
+}
+@keyframes popUp {
+      from { transform: translate(-50%, -56%) scale(.6); opacity: 0;}
+        to   { transform: translate(-50%, -50%) scale(1); opacity: 1;}
+}
+.cake-popup-close {
+      display: block;
+        margin: 15px auto -8px auto;
+          background: #fe8bba;
+            color: #fff;
+              border: none;
+                border-radius: 18px;
+                  padding: 8px 24px;
+                    font-size: 1rem;
+                      cursor: pointer;
+                        transition: background .2s;
+}
+.cake-popup-close:hover {
+      background: #fd659a;
+}
+@media (max-width:500px){
+      .hello-kitty-bg { width: 44px; top: 10px; right: 10px;}
+        .cake-base { width: 125px; height: 70px; }
+          .cake-box { width: 85px; height: 34px; margin-top: 31px;}
+            .cake-top { width: 85px; height: 8px;}
+              .candles-row { top:-22px; gap:3px;}
+                .candle {width:8px; height:20px;}
+                  .message { font-size:1.1rem; line-height:1.15rem;}
+                    .cake-popup { font-size: 1.05rem; padding: 18px 17px;}
+}
+</style>
+</head>
+<body>
+<img class="hello-kitty-bg" src="https://www.pngall.com/wp-content/uploads/17/Hello-Kitty-Sanrio-Joyful-Character-PNG.png" alt="Hello Kitty" />
+<div class="cake-base" id="cakeClick">
+  <div class="cake-box">
+      <div class="cake-top"></div>
+          <div class="candles-row">
+                <div class="candle" id="candle1"><div class="flame"><div class="flame-shape"></div></div></div>
+                      <div class="candle" id="candle2"><div class="flame"><div class="flame-shape"></div></div></div>
+                            <div class="candle" id="candle3"><div class="flame"><div class="flame-shape"></div></div></div>
+                                </div>
+                                  </div>
+                                  </div>
+                                  <div class="message" id="msg"></div>
+
+                                  <div class="cake-popup" id="cakeMsgBox">
+                                    <div id="cakeMsg">أتمنى لك عيد ميلاد يملؤه الفرح والحب وأيام سعيدة يا ميمي 🎉</div>
+                                      <button class="cake-popup-close" onclick="closeCakeMsg()">إغلاق</button>
+                                      </div>
+
+                                      <script>
+                                        // إشعال الشموع واحدة تلو الأخرى
+                                          const candleIds = ['candle1','candle2','candle3'];
+                                            let idx = 0;
+                                              function lightCandles() {
+                                                    if(idx < candleIds.length){
+                                                              document.getElementById(candleIds[idx]).classList.add('lit');
+                                                                    idx++;
+                                                                          setTimeout(lightCandles, 650);
+                                                    }
+                                              }
+                                                setTimeout(lightCandles, 900);
+
+                                                  // نص تدريجي
+                                                    const message = "Happy Birthday My Queen Maha";
+                                                      const msgDiv = document.getElementById('msg');
+                                                        let i = 0;
+                                                          function revealText() {
+                                                                if (i <= message.length) {
+                                                                          msgDiv.textContent = message.slice(0,i);
+                                                                                i++;
+                                                                                      setTimeout(revealText, 90);
+                                                                }
+                                                          }
+                                                            setTimeout(revealText, 1900);
+
+                                                              // بوكس الكيكة
+                                                                const cakeMessage = "وإن كان لمارس ألفُ ملكة، فميلادكِ فيه يجعلُكِ الأجمل بينهنّ ويملأ أيامهُ نوراً وبهجة";
+                                                                  const cakeBox = document.getElementById('cakeMsgBox');
+                                                                    const cakeMsg = document.getElementById('cakeMsg');
+                                                                      document.getElementById('cakeClick').onclick = function(){
+                                                                            cakeMsg.textContent = cakeMessage;
+                                                                                cakeBox.classList.add('active');
+                                                                      }
+                                                                        function closeCakeMsg(){
+                                                                                cakeBox.classList.remove('active');
+                                                                        }
+                                                                        </script>
+                                                                        </body>
+                                                                        </html>
+                                                                        }
+                                                                      }
+                                                                }
+                                                          }
+                                                    }
+                                              }
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
